@@ -1,0 +1,54 @@
+from jinja2 import Template
+
+def generate_website(movies):
+    """
+    Generates an HTML page displaying a list of movies.
+    The movies should be a dictionary with the structure:
+    { 'title': {'year': int, 'rating': float, 'poster_url': str} }
+    """
+
+    # Define the template (could also load from a file)
+    html_template = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Movies List</title>
+        <style>
+            body { font-family: Arial, sans-serif; }
+            .movie { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+            .movie img { max-width: 100px; }
+        </style>
+    </head>
+    <body>
+        <h1>Movies List</h1>
+        <div id="movies">
+            <!-- Movie items will be inserted here -->
+            {% for title, movie in movies.items() %}
+            <div class="movie">
+                <h2>{{ title }}</h2>
+                <p>Year: {{ movie.year }}</p>
+                <p>Rating: {{ movie.rating }}</p>
+                {% if movie.poster_url %}
+                <img src="{{ movie.poster_url }}" alt="{{ title }}">
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+    </html>
+    """
+    
+    # Create a Jinja2 Template object
+    template = Template(html_template)
+
+    # Render the template with the provided movie data
+    html_output = template.render(movies=movies)
+
+    # Write the HTML to a file (e.g., movies_list.html)
+    with open('movies_list.html', 'w') as f:
+        f.write(html_output)
+
+    print("Website generated: movies_list.html")
+

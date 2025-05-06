@@ -1,0 +1,22 @@
+<html>
+<head>
+    <title>{{ TEMPLATE_TITLE }}</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="list-movies-title">
+    <h1>{{ TEMPLATE_TITLE }}</h1>  <!-- Title placeholder -->
+</div>
+<div>
+    <ol class="movie-grid">
+        {% for movie in TEMPLATE_MOVIE_GRID %}
+            <li class="movie-item">
+                <h3>{{ movie.title }}</h3>
+                <p>{{ movie.year }} | Rating: {{ movie.rating }}</p>
+                <img class="movie-poster" src="{{ movie.poster }}" alt="{{ movie.title }} Poster">
+            </li>
+        {% endfor %}
+    </ol>
+</div>
+</body>
+</html>

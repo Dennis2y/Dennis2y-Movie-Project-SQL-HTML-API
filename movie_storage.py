@@ -1,59 +1,43 @@
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database import Movie  # Importing the Movie model from database.py
 
-def connect_db():
-    """Connects to the SQLite database."""
-    return sqlite3.connect("movies.db")
+# Setting up the engine and session
+DATABASE_URL = "sqlite:///movies.db"  # Database path
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
+session = Session()
 
-def create_table():
-    """Creates the movie table in the database if it doesn't exist."""
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS movies (
-        title TEXT PRIMARY KEY,
-        year INTEGER,
-        rating REAL
-    )
-    ''')
-    conn.commit()
-    conn.close()
-
-def add_movie(title, year, rating):
-    """Adds a new movie to the database."""
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('''
-    INSERT OR REPLACE INTO movies (title, year, rating)
-    VALUES (?, ?, ?)
-    ''', (title, year, rating))
-    conn.commit()
-    conn.close()
-
-def delete_movie(title):
-    """Deletes a movie from the database."""
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('''
-    DELETE FROM movies WHERE title = ?
-    ''', (title,))
-    conn.commit()
-    conn.close()
-
-def update_movie(title, rating):
-    """Updates a movie's rating in the database."""
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('''
-    UPDATE movies SET rating = ? WHERE title = ?
-    ''', (rating, title))
-    conn.commit()
-    conn.close()
+def add_movie(title, year, rating, poster):
+    """Adds a movie to the database."""
+    new_movie = Movie(title=title, year=year, rating=rating, poster=poster)
+    session.add(new_movie)
+    session.commit()
+    print(f"Movie '{title}' added to the database.")
 
 def get_movies():
     """Fetches all movies from the database."""
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('SELECT title, year, rating FROM movies')
-    movies = {title: {'year': year, 'rating': rating} for title, year, rating in cursor.fetchall()}
-    conn.close()
+    movies = {}
+    for movie in session.query(Movie).all():
+        movies[movie.title] = {"year": movie.year, "rating": movie.rating, "poster": movie.poster}
     return movies
+
+def delete_movie(title):
+    """Deletes a movie from the database."""
+    movie = session.query(Movie).filter(Movie.title == title).first()
+    if movie:
+        session.delete(movie)
+        session.commit()
+        print(f"Movie '{title}' deleted from the database.")
+    else:
+        print(f"Movie '{title}' not found.")
+
+def update_movie(title, rating):
+    """Updates the rating of an existing movie."""
+    movie = session.query(Movie).filter(Movie.title == title).first()
+    if movie:
+        movie.rating = rating
+        session.commit()
+        print(f"Movie '{title}' updated.")
+    else:
+        print(f"Movie '{title}' not found.")

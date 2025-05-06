@@ -1,17 +1,35 @@
-# Movie Management System
+# 🎬 Movie Project - SQL + HTML + API
 
-## Overview
-This project is a command-line movie management application that stores movie details in an SQLite database and allows users to interact with the data. It can list, add, and delete movies, and generate an HTML website displaying the movie collection.
+A beginner-friendly Python project that allows users to manage a movie collection using a SQLite database, fetches movie data from the OMDb API, and generates a static HTML website with movie posters.
 
-## Features
-- List movies
-- Add movies via OMDb API
-- Delete movies
-- Generate HTML website of movie collection
+---
 
-## Installation
+## 📦 Features
 
-1. Clone the repository.
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
+* Add movies by title (fetches year, rating, and poster from OMDb)
+* Store movie data in a SQLite database using SQLAlchemy
+* Generate a static `index.html` with all movies and posters
+* Search and display movie details
+* Error handling for missing data and API issues
+
+---
+
+## 🛠️ Technologies Used
+
+* Python 3
+* SQLAlchemy (ORM)
+* SQLite
+* OMDb API
+* HTML (Jinja2-style template)
+* Git + GitHub
+
+---
+
+## 🚀 How to Run
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Dennis2y/Movie-Project-SQL-HTML-API.git
+cd Movie-Project-SQL-HTML-API
+```

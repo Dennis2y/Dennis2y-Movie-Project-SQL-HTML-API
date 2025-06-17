@@ -77,9 +77,6 @@ I  moved the generated index.html to a /docs folder and host it using GitHub Pag
 
 Set source to main branch, /docs folder:
 
-Access my site at:
-https://dennis2y.github.io/Movie-Project-SQL-HTML-API/
-
 🤝 Contributions
 Contributions are welcome!
 Feel free to fork the repo, improve features, and create pull requests.
